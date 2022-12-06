@@ -5,6 +5,11 @@ import axios from "axios";
 export class Read extends React.Component{
     
 
+    constructor(){
+        super();
+        this.reloadData = this.reloadData.bind(this);
+    }
+
     componentDidMount() {
         axios.get('http://localhost:4000/api/books')
         .then((response)=>{
@@ -14,6 +19,18 @@ export class Read extends React.Component{
             console.log(error);
         })
     }
+    
+    reloadData(){
+        axios.get('http://localhost:4000/api/books')
+        .then((response)=>{
+            this.setState({books:response.data})
+        })
+        .catch((error)=>{
+            console.log(error);
+        })
+
+    }
+
 
     state = {
         books:[ ]
@@ -23,7 +40,7 @@ export class Read extends React.Component{
         return(
             <div>
                 <h3>Hello from my Read component!</h3>
-                <Books books={this.state.books}></Books>
+                <Books books={this.state.books} reloadData={this.reloadData}></Books>
             </div>
         );
     }
